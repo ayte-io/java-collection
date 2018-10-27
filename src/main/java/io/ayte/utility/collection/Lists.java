@@ -1,7 +1,6 @@
 package io.ayte.utility.collection;
 
 import lombok.val;
-import lombok.var; // NOSONAR
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,21 +18,21 @@ public class Lists {
      * in a little bit more concise version.
      */
     public static <T> List<T> empty() {
-        return Collections.emptyList();
+        return AmplifiedCollections.emptyList();
     }
 
     /**
      * Checks if provided list is either null or empty
      */
     public static <T> boolean isBlank(List<T> subject) {
-        return subject == null || subject.isEmpty();
+        return AmplifiedCollections.isBlank(subject);
     }
 
     /**
      * Checks if provided list is not null and is not empty
      */
     public static <T> boolean isNotBlank(List<T> subject) {
-        return !isBlank(subject);
+        return AmplifiedCollections.isNotBlank(subject);
     }
 
     /**
@@ -88,6 +87,11 @@ public class Lists {
         return Collections.unmodifiableList(mutable(sources));
     }
 
+    @SafeVarargs
+    public static <E> List<E> of(E... sources) {
+        return immutable(sources);
+    }
+
     /**
      * Splits input list into sublists
      *
@@ -96,16 +100,21 @@ public class Lists {
     public static <E> List<List<E>> partition(List<? extends E> source, int size) {
         val iterator = source.iterator();
         val target = new ArrayList<List<E>>();
-        var cursor = new ArrayList<E>();
-        var i = 0;
         while (iterator.hasNext()) {
-            cursor.add(iterator.next());
-            if (++i == size) {
-                target.add(immutable(cursor));
-                cursor = new ArrayList<>();
-                i = 0;
+            val cursor = new ArrayList<E>();
+            for (int i = 0; i < size; i++) {
+                if (!iterator.hasNext()) {
+                    break;
+                }
+                cursor.add(iterator.next());
             }
+            target.add(immutable(cursor));
         }
         return immutable(target);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <E> List<E> downcast(List<? extends E> subject) {
+        return (List) subject;
     }
 }

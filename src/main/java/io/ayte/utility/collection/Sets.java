@@ -6,7 +6,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.NavigableSet;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
@@ -45,7 +47,6 @@ public class Sets {
         return immutable(source.iterator());
     }
 
-    // TODO: Check with JMH if manual loop unrolling will be more effective (likely not)
     @SafeVarargs
     public static <E> Set<E> immutable(E... sources) {
         return immutable(Arrays.asList(sources));
@@ -70,12 +71,35 @@ public class Sets {
         return AmplifiedCollections.materialize(subject);
     }
 
+    public static <E> SortedSet<E> materialize(SortedSet<E> subject) {
+        return AmplifiedCollections.materialize(subject);
+    }
+
+    public static <E> NavigableSet<E> materialize(NavigableSet<E> subject) {
+        return AmplifiedCollections.materialize(subject);
+    }
+
     public static <E> boolean isBlank(Set<E> subject) {
         return subject == null || subject.isEmpty();
     }
 
     public static <E> boolean isNotBlank(Set<E> subject) {
         return !isBlank(subject);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <E> Set<E> downcast(Set<? extends E> subject) {
+        return (Set<E>) subject;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <E> NavigableSet<E> downcast(NavigableSet<? extends E> subject) {
+        return (NavigableSet<E>) subject;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <E> SortedSet<E> downcast(SortedSet<? extends E> subject) {
+        return (SortedSet<E>) subject;
     }
 
     // Type operations

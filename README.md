@@ -63,8 +63,11 @@ packed in `ParameterizedXOperations` classes.
 - Strive to expose all standard function-alike operations as separate
 classes, so it would be easy to see what happens in debugger.
 - Keep it simple and semantically correct.
-- Do not forget about performance, as well as testing it with JMH.
+- When in doubt, implement new benchmark in 
+[perfomance repository][benchmark-repository].
 
 ## Licensing
 
 MIT / Ayte Labs, 2018
+
+  [benchmark-repository]: https://github.com/ayte-io/java-performance-breakdown
