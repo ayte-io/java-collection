@@ -146,6 +146,10 @@ public class AmplifiedCollections {
         return subject != null ? subject : emptyListIterator();
     }
 
+    public static <E> Iterable<E> materialize(Iterable<E> subject) {
+        return subject != null ? subject : emptyIterable();
+    }
+
     public static <E> Queue<E> materialize(Queue<E> subject) {
         return subject != null ? subject : emptyQueue();
     }
