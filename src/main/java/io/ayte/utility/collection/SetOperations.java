@@ -11,42 +11,22 @@ public class SetOperations {
 
     @SuppressWarnings("unchecked")
     public static <E> BiFunction<Set<E>, Set<E>, Set<E>> union() {
-        return (BiFunction<Set<E>, Set<E>, Set<E>>) Union.INSTANCE;
-    }
-
-    @SuppressWarnings({"unchecked", "squid:S1452"})
-    public static <E> BiFunction<Set<? extends E>, Set<? extends E>, Set<E>> parameterizedUnion() {
-        return (Union<E>) Union.INSTANCE;
+        return (BiFunction) ParameterizedSetOperations.<E>union();
     }
 
     @SuppressWarnings("unchecked")
     public static <E> BiFunction<Set<E>, Set<E>, Set<E>> intersection() {
-        return (BiFunction<Set<E>, Set<E>, Set<E>>) Intersection.INSTANCE;
-    }
-
-    @SuppressWarnings({"unchecked", "squid:S1452"})
-    public static <E> BiFunction<Set<? extends E>, Set<? extends E>, Set<E>> parameterizedIntersection() {
-        return (Intersection<E>) Intersection.INSTANCE;
+        return (BiFunction) ParameterizedSetOperations.<E>intersection();
     }
 
     @SuppressWarnings({"unchecked"})
     public static <E> BiPredicate<Set<E>, Set<E>> areDisjoint() {
-        return (BiPredicate<Set<E>, Set<E>>) AreDisjoint.INSTANCE;
-    }
-
-    @SuppressWarnings({"unchecked", "squid:S1452"})
-    public static <E> BiPredicate<Set<? extends E>, Set<? extends E>> parameterizedAreDisjoint() {
-        return (AreDisjoint<E>) AreDisjoint.INSTANCE;
+        return (BiPredicate) ParameterizedSetOperations.<E>areDisjoint();
     }
 
     @SuppressWarnings("unchecked")
     public static <E> BiPredicate<Set<E>, Set<E>> isSubsetOf() {
-        return (BiPredicate<Set<E>, Set<E>>) IsSubsetOf.INSTANCE;
-    }
-
-    @SuppressWarnings({"unchecked", "squid:S1452"})
-    public static <E> BiPredicate<Set<? extends E>, Set<? extends E>> parameterizedIsSubsetOf() {
-        return (IsSubsetOf<E>) IsSubsetOf.INSTANCE;
+        return (BiPredicate) ParameterizedSetOperations.isSubsetOf();
     }
 
     public static <E> Predicate<Set<E>> isNotBlank() {
@@ -55,41 +35,5 @@ public class SetOperations {
 
     public static <E> Predicate<Set<E>> isBlank() {
         return CollectionOperations.isBlank();
-    }
-
-    private static class Union<E> implements BiFunction<Set<? extends E>, Set<? extends E>, Set<E>> {
-        public static final Union INSTANCE = new Union<>();
-
-        @Override
-        public Set<E> apply(Set<? extends E> left, Set<? extends E> right) {
-            return Sets.union(left, right);
-        }
-    }
-
-    private static class Intersection<E> implements BiFunction<Set<? extends E>, Set<? extends E>, Set<E>> {
-        public static final Intersection INSTANCE = new Intersection<>();
-
-        @Override
-        public Set<E> apply(Set<? extends E> left, Set<? extends E> right) {
-            return Sets.intersection(left, right);
-        }
-    }
-
-    private static class AreDisjoint<E> implements BiPredicate<Set<? extends E>, Set<? extends E>> {
-        private static final AreDisjoint INSTANCE = new AreDisjoint();
-
-        @Override
-        public boolean test(Set<? extends E> left, Set<? extends E> right) {
-            return Sets.areDisjoint(left, right);
-        }
-    }
-
-    private static class IsSubsetOf<E> implements BiPredicate<Set<? extends E>, Set<? extends E>> {
-        private static final IsSubsetOf INSTANCE = new IsSubsetOf();
-
-        @Override
-        public boolean test(Set<? extends E> subject, Set<? extends E> space) {
-            return Sets.isSubsetOf(subject, space);
-        }
     }
 }
